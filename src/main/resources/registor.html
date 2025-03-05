@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - JWT Auth</title>
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+  />
+  <link
+          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+          rel="stylesheet"
+  />
+  <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    /* General Styles */
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #a855f7, #6366f1); /* Vibrant gradient */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      animation: gradientShift 15s ease infinite; /* Smoother animation */
+      background-size: 200% 200%; /* Ensure full gradient coverage */
+    }
+
+    /* Auth Container */
+    .auth-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 30px; /* Increased padding */
+      background: rgba(255, 255, 255, 0.95); /* Slightly less transparency */
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+      animation: fadeIn 0.8s ease-out; /* Fade-in animation */
+      backdrop-filter: blur(10px); /* Add blur effect */
+    }
+
+    /* Auth Card */
+    .auth-card {
+      background: transparent; /* Remove background color */
+      border-radius: 16px;
+      padding: 35px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    }
+
+    .auth-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(103, 58, 183, 0.3); /* Stronger hover effect */
+    }
+
+    /* Header */
+    .auth-header h3 {
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: #374151; /* Darker text */
+      font-size: 2rem; /* Increased font size */
+      animation: fadeInUp 0.6s ease-out; /* Fade-up animation */
+    }
+
+    .auth-header p {
+      font-size: 16px;
+      margin-bottom: 25px;
+      color: #6b7280; /* Slightly darker muted text */
+      animation: fadeInUp 0.8s ease-out; /* Fade-up animation */
+    }
+
+    /* Form Styling */
+    .form-group {
+      margin-bottom: 22px;
+      animation: slideInLeft 0.5s ease-out; /* Slide-in animation */
+    }
+
+    .form-control {
+      border-radius: 12px; /* More rounded corners */
+      padding: 16px; /* Increased padding */
+      border: 2px solid #e5e7eb; /* Subtle border */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+      background: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+    }
+
+    .form-control:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3); /* Stronger focus shadow */
+      border-color: #8b5cf6;
+      transform: scale(1.01); /* Subtle scale on focus */
+    }
+
+    /* Password Field */
+    .password-field {
+      position: relative;
+    }
+
+    .password-field .toggle-password {
+      position: absolute;
+      right: 18px; /* Adjusted position */
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #8b5cf6;
+      font-size: 18px; /* Increased icon size */
+      transition: color 0.3s ease;
+    }
+
+    .password-field .toggle-password:hover {
+      color: #7c3aed;
+    }
+
+    /* Button */
+    .btn-primary {
+      background: linear-gradient(135deg, #8b5cf6, #6366f1); /* Gradient button */
+      border: none;
+      padding: 16px 20px; /* Increased padding */
+      font-weight: 700;
+      border-radius: 12px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      letter-spacing: 0.8px;
+      color: white;
+      box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4); /* Button shadow */
+      animation: pulse 2s infinite; /* Pulsing animation */
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.5); /* Stronger hover shadow */
+    }
+
+    .btn-primary:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* Footer */
+    .auth-footer {
+      margin-top: 25px;
+      text-align: center;
+      animation: slideInRight 0.5s ease-out; /* Slide-in animation */
+    }
+
+    .auth-footer p {
+      font-size: 15px;
+      color: #6b7280;
+    }
+
+    .auth-footer a {
+      color: #8b5cf6;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .auth-footer a:hover {
+      color: #7c3aed;
+      text-decoration: underline;
+    }
+
+    /* Animations */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    /* Social Login */
+    .social-login {
+      margin-top: 25px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      animation: slideInUp 0.6s ease-out;
+    }
+
+    .social-btn {
+      padding: 12px; /* Increase size */
+      border-radius: 10px;
+      border: 2px solid #e5e7eb;
+      background: rgba(255, 255, 255, 0.8);
+      transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .social-btn:hover {
+      background: #8b5cf6;
+      border-color: #7c3aed;
+      transform: translateY(-3px);
+    }
+
+    .social-btn svg {
+      width: 24px;
+      height: 2
+    }
+  </style>
+</head>
+<body>
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h3>Create Account</h3>
+      <p>Get started with your free account</p>
+    </div>
+    <div class="auth-body">
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="name" class="form-label">Full Name</label>
+          <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Enter your full name"
+                  required
+          />
+        </div>
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="Enter your email"
+                  required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="password-field">
+            <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+            />
+            <span
+                    toggle="#password"
+                    class="toggle-password fa fa-eye"
+            ></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword" class="form-label">
+            Confirm Password
+          </label>
+          <div class="password-field">
+            <input
+                    type="password"
+                    class="form-control"
+                    id="confirmPassword"
+                    placeholder="Confirm your password"
+                    required
+            />
+            <span
+                    toggle="#confirmPassword"
+                    class="toggle-password fa fa-eye"
+            ></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="role" class="form-label">Role</label>
+          <select class="form-select" id="role" required>
+            <option value="">Select Role</option>
+            <option value="USER">ADMIN</option>
+            <option value="ADMIN">USER</option>
+          </select>
+        </div>
+        <div class="form-group mb-2">
+          <button type="submit" class="btn btn-primary w-100">
+            Register
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="auth-footer">
+      <p class="mb-0">
+        Already have an account? <a href="../index.html">Login</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/js/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Password visibility toggle
+    $(".toggle-password").click(function () {
+      $(this).toggleClass("fa-eye fa-eye-slash");
+      var input = $($(this).attr("toggle"));
+      if (input.attr("type") === "password") {
+        input.attr("type", "text");
+      } else {
+        input.attr("type", "password");
+      }
+    });
+
+    $("#loginForm").on("submit", function (e) {
+      e.preventDefault();
+
+      $.ajax({
+        url: "http://localhost:8082/api/v1/auth/authenticate",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+          email: $("#email").val(),
+          password: $("#password").val(),
+        }),
+        success: function (response) {
+          localStorage.setItem("jwt_token", response.token);
+          $("#loginForm")[0].reset();
+          window.location.href = "pages/dashboard.html";
+        },
+        error: function (xhr, status, error) {
+          alert("Login failed. Please check your credentials.");
+          console.error("Error:", error);
+        },
+      });
+    });
+
+    // -------------------------------- Signup --------------------------------
+    $("#registerForm").on("submit", function (e) {
+      e.preventDefault();
+
+      const password = $("#password").val();
+      const confirmPassword = $("#confirmPassword").val();
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      $.ajax({
+        url: "http://localhost:8082/api/v1/user/register",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+          email: $("#email").val(),
+          password: password,
+          name: $("#name").val(),
+          role: $("#role").val(),
+        }),
+        success: function (response) {
+          alert("Registration successful! Please login.");
+          $("#registerForm")[0].reset();
+          window.location.href = "../registor.html";
+        },
+        error: function (xhr, status, error) {
+          alert("Registration failed. Please try again.");
+          console.error("Error:", error);
+          if (xhr.responseJSON && xhr.responseJSON.message) {
+            alert(xhr.responseJSON.message);
+          }
+        },
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
