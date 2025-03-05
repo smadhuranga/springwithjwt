@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #f0f0f0;
+            padding: 20px;
+            height: 100vh;
+        }
+
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        #data-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        /* Example styling for tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <button id="admin-btn">Admin Data</button>
+    <button id="user-btn">User Data</button>
+    <button id="coordinator-btn">Coordinator Data</button>
+</div>
+
+<div class="content">
+    <h1>Dashboard</h1>
+    <div id="data-container">
+    </div>
+</div>
+
+<script>
+    document.getElementById('admin-btn').addEventListener('click', () => {
+        fetchData('admin');
+    });
+
+    document.getElementById('user-btn').addEventListener('click', () => {
+        fetchData('user');
+    });
+
+    document.getElementById('coordinator-btn').addEventListener('click', () => {
+        fetchData('coordinator');
+    });
+
+    function fetchData(role) {
+        fetch(`get_${role}_data.php`) // Create these PHP files
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('data-container').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('data-container').innerHTML = '<p>Error loading data.</p>';
+            });
+    }
+
+</script>
+</body>
+</html>
